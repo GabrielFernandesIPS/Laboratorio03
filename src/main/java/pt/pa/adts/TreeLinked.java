@@ -141,6 +141,29 @@ public class TreeLinked<E> implements Tree<E> {
         return elem;
     }
 
+    @Override
+    public int degree(Position<E> position) throws InvalidPositionException {
+        int degreeCount = 0;
+
+        TreeNode node = checkPosition(position);
+        if(!node.children.isEmpty()){
+            degreeCount = degree(node);
+        }
+        return degreeCount;
+    }
+
+    private int degree(TreeNode root) {
+        //Obter o numero de children no node nao vazio
+        int degreeCount = root.children.size();
+
+        //Obter o numero maximo entre os filhos dos filhos
+        //com o numero de filhos do node principal
+        for(TreeNode child: root.children){
+            degreeCount = Math.max(degreeCount, degree(child));
+        }
+        return degreeCount;
+    }
+
     /**
      *   auxiliary method to check if Position is valid and cast to a treeNode
      */
